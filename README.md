@@ -18,9 +18,9 @@
 - Python 3.10 或更高版本
 - Node.js 18 或更高版本
 - npm
-- macOS / Linux 终端环境
+- Windows PowerShell、macOS 终端或 Linux Shell
 
-Python 依赖在 [hdu_library_autobook/requirements.txt](/Users/a1/Documents/hdu%20library/hdu_library_autobook/requirements.txt) 里；前端依赖在 [hdu_library_autobook/web/package.json](/Users/a1/Documents/hdu%20library/hdu_library_autobook/web/package.json) 里。
+Python 依赖在 [hdu_library_autobook/requirements.txt](hdu_library_autobook/requirements.txt) 里；前端依赖在 [hdu_library_autobook/web/package.json](hdu_library_autobook/web/package.json) 里。
 
 ## 第一次上岛
 
@@ -33,6 +33,8 @@ cd HDU-Library-Island
 
 准备 Python 环境：
 
+macOS / Linux：
+
 ```bash
 cd hdu_library_autobook
 python3 -m venv venv
@@ -41,10 +43,45 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
+Windows PowerShell：
+
+```powershell
+cd hdu_library_autobook
+py -3 -m venv venv
+.\venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+如果 PowerShell 提示不能执行脚本，可以只在当前窗口临时放行后再激活：
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\venv\Scripts\Activate.ps1
+```
+
+Windows CMD：
+
+```bat
+cd hdu_library_autobook
+py -3 -m venv venv
+venv\Scripts\activate.bat
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
 如果你想预先生成本地配置文件，可以复制示例配置：
+
+macOS / Linux：
 
 ```bash
 cp config.example.json config.json
+```
+
+Windows PowerShell：
+
+```powershell
+Copy-Item config.example.json config.json
 ```
 
 这一步不是必须的。Web 端会在登录页让你输入学号和密码，不需要改代码，也不需要提前把账号写进配置文件。请不要把自己的 `config.json` 提交到 GitHub，它已经被 `.gitignore` 保护起来了。
@@ -53,13 +90,25 @@ cp config.example.json config.json
 
 先启动 Python API：
 
+macOS / Linux：
+
 ```bash
 cd hdu_library_autobook
 source venv/bin/activate
 python -m web_api
 ```
 
+Windows PowerShell：
+
+```powershell
+cd hdu_library_autobook
+.\venv\Scripts\Activate.ps1
+python -m web_api
+```
+
 再开一个终端启动前端：
+
+macOS / Linux / Windows：
 
 ```bash
 cd hdu_library_autobook/web
@@ -73,7 +122,63 @@ npm run dev
 http://127.0.0.1:5173
 ```
 
-如果你在 macOS 上，也可以双击 [hdu_library_autobook/start_web.command](/Users/a1/Documents/hdu%20library/hdu_library_autobook/start_web.command)。它会从项目根目录启动 API，再进入 Web 目录启动 Vite。
+如果你在 macOS 上，也可以双击 [hdu_library_autobook/start_web.command](hdu_library_autobook/start_web.command)。它会从项目根目录启动 API，再进入 Web 目录启动 Vite。Windows 上不使用 `.command` 文件，按上面的 PowerShell 步骤启动即可。
+
+## Windows 使用教程
+
+Windows 可以使用这个程序，推荐先跑 Web UI，因为浏览器界面最稳定。请按下面的小岛路线走：
+
+1. 安装 [Python 3.10+](https://www.python.org/downloads/)；安装时勾选 “Add python.exe to PATH”。
+2. 安装 [Node.js 18+](https://nodejs.org/)。
+3. 打开 PowerShell，进入你想放项目的目录。
+4. 克隆仓库并进入项目：
+
+```powershell
+git clone https://github.com/MinieShu/HDU-Library-Island.git
+cd HDU-Library-Island
+```
+
+5. 创建并激活 Python 虚拟环境：
+
+```powershell
+cd hdu_library_autobook
+py -3 -m venv venv
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+6. 启动后端 API：
+
+```powershell
+python -m web_api
+```
+
+7. 再打开一个新的 PowerShell 窗口，启动前端：
+
+```powershell
+cd HDU-Library-Island\hdu_library_autobook\web
+npm install
+npm run dev
+```
+
+8. 浏览器打开 `http://127.0.0.1:5173`，在登录页输入自己的学号和数字杭电密码。
+9. 使用时保持两个 PowerShell 窗口都开着：一个是 Python API，一个是前端页面服务。
+
+Windows 桌面 GUI 也可以运行：
+
+```powershell
+cd HDU-Library-Island\hdu_library_autobook
+.\venv\Scripts\Activate.ps1
+python main.py
+```
+
+如果桌面 GUI 启动失败，优先确认虚拟环境已激活、`PyQt6` 已安装，并尝试重新执行：
+
+```powershell
+python -m pip install --upgrade --force-reinstall PyQt6
+```
 
 ## Web UI 使用教程
 
@@ -90,9 +195,19 @@ http://127.0.0.1:5173
 
 ## 启动桌面 GUI
 
+macOS / Linux：
+
 ```bash
 cd hdu_library_autobook
 source venv/bin/activate
+python main.py
+```
+
+Windows PowerShell：
+
+```powershell
+cd hdu_library_autobook
+.\venv\Scripts\Activate.ps1
 python main.py
 ```
 
@@ -102,7 +217,7 @@ python main.py
 python main.py --verbose
 ```
 
-macOS 用户也可以双击 [hdu_library_autobook/start.command](/Users/a1/Documents/hdu%20library/hdu_library_autobook/start.command)，脚本会自动检查虚拟环境和依赖。
+macOS 用户也可以双击 [hdu_library_autobook/start.command](hdu_library_autobook/start.command)，脚本会自动检查虚拟环境和依赖。Windows 用户请使用 PowerShell 或 CMD 启动。
 
 ## 桌面 GUI 使用教程
 
