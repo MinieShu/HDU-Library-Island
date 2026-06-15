@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments
+.venv/
+venv/
+env/
+
+# Local secrets and runtime state
+hdu_library_autobook/config.json
+hdu_library_autobook/logs/
+*.log
+
+# Debug captures and generated diagnostics
+hdu_library_autobook/diagnose_output.txt
+hdu_library_autobook/sso_debug.html
+hdu_library_autobook/ie_login.html
+hdu_library_autobook/loginNew.js
+hdu_library_autobook/deploy.js
+hdu_library_autobook/debug_sso.py
+hdu_library_autobook/diagnose.py
+hdu_library_autobook/diagnose2.py
+
+# macOS packaged app output
+*.app/
+
+# Frontend
+node_modules/
+dist/
+.vite/
+
+# OS/editor noise
+.DS_Store
+.idea/
+.vscode/

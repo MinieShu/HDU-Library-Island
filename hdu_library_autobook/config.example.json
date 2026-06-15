@@ -1,0 +1,42 @@
+{
+    "api": {
+        "base_url": "https://hdu.huitu.zhishulib.com",
+        "sso_url": "https://sso.hdu.edu.cn/login",
+        "service_url": "https://hdu.huitu.zhishulib.com",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "request_timeout": 10,
+        "retry_count": 3,
+        "retry_delay": 0.5
+    },
+    "auth": {
+        "student_id": "",
+        "password": "",
+        "remember": false,
+        "auto_login": false
+    },
+    "booking": {
+        "seat": {
+            "preferred_areas": [],
+            "preferred_seats": [],
+            "default_duration_hours": 4,
+            "auto_select": true
+        },
+        "room": {
+            "preferred_rooms": [],
+            "default_duration_hours": 3,
+            "min_people": 1
+        }
+    },
+    "schedule": {
+        "enabled": true,
+        "daily_open_time": "20:00:00",
+        "pre_trigger_seconds": 3,
+        "retry_interval_seconds": 1,
+        "max_retries": 30
+    },
+    "notifications": {
+        "enabled": true,
+        "sound_on_success": true,
+        "sound_on_failure": true
+    }
+}
