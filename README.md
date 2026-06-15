@@ -22,6 +22,36 @@
 
 Python 依赖在 [hdu_library_autobook/requirements.txt](hdu_library_autobook/requirements.txt) 里；前端依赖在 [hdu_library_autobook/web/package.json](hdu_library_autobook/web/package.json) 里。
 
+## 一键脚本
+
+每个系统都有一个配置脚本和一个启动脚本。配置脚本会创建 Python 虚拟环境并安装前后端依赖；启动脚本会一键启动后端 API 和 Web 前端，浏览器会打开 `http://127.0.0.1:5173`。
+
+Windows PowerShell：
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\scripts\setup_windows.ps1
+.\scripts\start_windows.ps1
+```
+
+macOS：
+
+```bash
+chmod +x scripts/setup_macos.sh scripts/start_macos.sh
+./scripts/setup_macos.sh
+./scripts/start_macos.sh
+```
+
+Linux：
+
+```bash
+chmod +x scripts/setup_linux.sh scripts/start_linux.sh
+./scripts/setup_linux.sh
+./scripts/start_linux.sh
+```
+
+配置脚本不会写入学号或密码。账号信息仍然只在 Web 登录页输入；如果勾选“记住密码”，程序会把信息保存到本机 `hdu_library_autobook/config.json`，该文件不会被提交到仓库。
+
 ## 第一次上岛
 
 克隆项目：
@@ -88,6 +118,8 @@ Copy-Item config.example.json config.json
 
 ## 启动 Web UI
 
+推荐直接使用上面的启动脚本。下面是手动启动方式，适合排查问题时使用。
+
 先启动 Python API：
 
 macOS / Linux：
@@ -122,7 +154,7 @@ npm run dev
 http://127.0.0.1:5173
 ```
 
-如果你在 macOS 上，也可以双击 [hdu_library_autobook/start_web.command](hdu_library_autobook/start_web.command)。它会从项目根目录启动 API，再进入 Web 目录启动 Vite。Windows 上不使用 `.command` 文件，按上面的 PowerShell 步骤启动即可。
+如果你在 macOS 上，也可以双击 [hdu_library_autobook/start_web.command](hdu_library_autobook/start_web.command)。它会转调用 [scripts/start_macos.sh](scripts/start_macos.sh)，从项目根目录启动 API，再进入 Web 目录启动 Vite。Windows 上不使用 `.command` 文件，运行 `.\scripts\start_windows.ps1` 即可。
 
 ## Windows 使用教程
 
@@ -138,33 +170,35 @@ git clone https://github.com/MinieShu/HDU-Library-Island.git
 cd HDU-Library-Island
 ```
 
-5. 创建并激活 Python 虚拟环境：
+5. 运行一键配置脚本：
 
 ```powershell
-cd hdu_library_autobook
-py -3 -m venv venv
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+.\scripts\setup_windows.ps1
 ```
 
-6. 启动后端 API：
+6. 一键启动后端 API 和 Web 前端：
 
 ```powershell
+.\scripts\start_windows.ps1
+```
+
+7. 浏览器打开 `http://127.0.0.1:5173`，在登录页输入自己的学号和数字杭电密码。
+8. 使用时保持 PowerShell 窗口开着；启动脚本会在另一个 PowerShell 窗口里运行后端 API。
+
+如果需要手动启动，可以开两个 PowerShell 窗口：
+
+```powershell
+cd HDU-Library-Island\hdu_library_autobook
+.\venv\Scripts\Activate.ps1
 python -m web_api
 ```
-
-7. 再打开一个新的 PowerShell 窗口，启动前端：
 
 ```powershell
 cd HDU-Library-Island\hdu_library_autobook\web
 npm install
 npm run dev
 ```
-
-8. 浏览器打开 `http://127.0.0.1:5173`，在登录页输入自己的学号和数字杭电密码。
-9. 使用时保持两个 PowerShell 窗口都开着：一个是 Python API，一个是前端页面服务。
 
 Windows 桌面 GUI 也可以运行：
 
