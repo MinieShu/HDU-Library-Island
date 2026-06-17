@@ -13,18 +13,34 @@
 
 ## 行李清单
 
-请先确认本机已有这些工具：
+程序会自动检查本机环境，并在可以的时候自动安装或更新缺少的工具。你不需要先进入终端手动配置。
+
+如果系统没有可用的自动安装工具，脚本会打开官方下载页或提示你手动安装：
 
 - Python 3.10 或更高版本
 - Node.js 18 或更高版本
 - npm
-- Windows PowerShell、macOS 终端或 Linux Shell
+- Windows PowerShell、macOS 终端或 Linux Shell（双击脚本时系统会自动打开）
 
 Python 依赖在 [hdu_library_autobook/requirements.txt](hdu_library_autobook/requirements.txt) 里；前端依赖在 [hdu_library_autobook/web/package.json](hdu_library_autobook/web/package.json) 里。
 
-## 一键脚本
+## 双击启动
 
-每个系统都有一个配置脚本和一个启动脚本。配置脚本会创建 Python 虚拟环境并安装前后端依赖；启动脚本会一键启动后端 API 和 Web 前端，浏览器会打开 `http://127.0.0.1:5173`。
+推荐普通用户直接使用项目根目录里的双击脚本：
+
+- Windows：先双击 [setup.bat](setup.bat)，完成后双击 [start.bat](start.bat)。
+- macOS：先双击 [setup.command](setup.command)，完成后双击 [start.command](start.command)。
+- Linux：运行 [setup.sh](setup.sh)，完成后运行 [start.sh](start.sh)。部分桌面环境允许双击运行，部分会要求右键选择“作为程序运行”。
+
+配置脚本会自动检查 Python、Node.js 和 npm，创建 Python 虚拟环境，并安装前后端依赖。启动脚本会一键启动后端 API 和 Web 前端，浏览器会打开 `http://127.0.0.1:5173`。
+
+如果直接双击启动时发现依赖不完整，`start` 也会自动先运行对应的 `setup`。
+
+配置脚本不会写入学号或密码。账号信息仍然只在 Web 登录页输入；如果勾选“记住密码”，程序会把信息保存到本机 `hdu_library_autobook/config.json`，该文件不会被提交到仓库。
+
+## 终端脚本
+
+如果你正在排查问题，或者更喜欢在终端里看完整输出，也可以直接运行系统脚本。
 
 Windows PowerShell：
 
@@ -37,20 +53,18 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 macOS：
 
 ```bash
-chmod +x scripts/setup_macos.sh scripts/start_macos.sh
-./scripts/setup_macos.sh
-./scripts/start_macos.sh
+chmod +x setup.command start.command scripts/setup_macos.sh scripts/start_macos.sh
+./setup.command
+./start.command
 ```
 
 Linux：
 
 ```bash
-chmod +x scripts/setup_linux.sh scripts/start_linux.sh
-./scripts/setup_linux.sh
-./scripts/start_linux.sh
+chmod +x setup.sh start.sh scripts/setup_linux.sh scripts/start_linux.sh
+./setup.sh
+./start.sh
 ```
-
-配置脚本不会写入学号或密码。账号信息仍然只在 Web 登录页输入；如果勾选“记住密码”，程序会把信息保存到本机 `hdu_library_autobook/config.json`，该文件不会被提交到仓库。
 
 ## 第一次上岛
 
@@ -60,6 +74,10 @@ chmod +x scripts/setup_linux.sh scripts/start_linux.sh
 git clone https://github.com/MinieShu/HDU-Library-Island.git
 cd HDU-Library-Island
 ```
+
+然后按上面的“双击启动”操作：Windows 双击 `setup.bat`，macOS 双击 `setup.command`，Linux 运行 `setup.sh`。
+
+下面是手动配置方式，适合脚本自动配置失败时排查问题。
 
 准备 Python 环境：
 
@@ -154,37 +172,35 @@ npm run dev
 http://127.0.0.1:5173
 ```
 
-如果你在 macOS 上，也可以双击 [hdu_library_autobook/start_web.command](hdu_library_autobook/start_web.command)。它会转调用 [scripts/start_macos.sh](scripts/start_macos.sh)，从项目根目录启动 API，再进入 Web 目录启动 Vite。Windows 上不使用 `.command` 文件，运行 `.\scripts\start_windows.ps1` 即可。
+如果你在 macOS 上，也可以双击项目根目录的 [start.command](start.command)。旧入口 [hdu_library_autobook/start_web.command](hdu_library_autobook/start_web.command) 仍然可用，它会转调用 [scripts/start_macos.sh](scripts/start_macos.sh)，从项目根目录启动 API，再进入 Web 目录启动 Vite。Windows 上推荐双击 [start.bat](start.bat)。
 
 ## Windows 使用教程
 
 Windows 可以使用这个程序，推荐先跑 Web UI，因为浏览器界面最稳定。请按下面的小岛路线走：
 
-1. 安装 [Python 3.10+](https://www.python.org/downloads/)；安装时勾选 “Add python.exe to PATH”。
-2. 安装 [Node.js 18+](https://nodejs.org/)。
-3. 打开 PowerShell，进入你想放项目的目录。
-4. 克隆仓库并进入项目：
+1. 打开 PowerShell，进入你想放项目的目录。
+2. 克隆仓库并进入项目：
 
 ```powershell
 git clone https://github.com/MinieShu/HDU-Library-Island.git
 cd HDU-Library-Island
 ```
 
-5. 运行一键配置脚本：
+3. 双击 `setup.bat`，或在 PowerShell 里运行一键配置脚本：
 
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\scripts\setup_windows.ps1
 ```
 
-6. 一键启动后端 API 和 Web 前端：
+4. 双击 `start.bat`，或在 PowerShell 里一键启动后端 API 和 Web 前端：
 
 ```powershell
 .\scripts\start_windows.ps1
 ```
 
-7. 浏览器打开 `http://127.0.0.1:5173`，在登录页输入自己的学号和数字杭电密码。
-8. 使用时保持 PowerShell 窗口开着；启动脚本会在另一个 PowerShell 窗口里运行后端 API。
+5. 浏览器打开 `http://127.0.0.1:5173`，在登录页输入自己的学号和数字杭电密码。
+6. 使用时保持启动窗口开着；启动脚本会在另一个 PowerShell 窗口里运行后端 API。
 
 如果需要手动启动，可以开两个 PowerShell 窗口：
 
@@ -251,7 +267,7 @@ python main.py
 python main.py --verbose
 ```
 
-macOS 用户也可以双击 [hdu_library_autobook/start.command](hdu_library_autobook/start.command)，脚本会自动检查虚拟环境和依赖。Windows 用户请使用 PowerShell 或 CMD 启动。
+macOS 用户也可以双击 [hdu_library_autobook/start.command](hdu_library_autobook/start.command)，脚本会自动检查虚拟环境和依赖。Windows 用户推荐双击项目根目录的 [start.bat](start.bat) 启动 Web UI；如果要启动桌面 GUI，再使用上面的 PowerShell 命令。
 
 ## 桌面 GUI 使用教程
 
